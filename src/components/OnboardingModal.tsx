@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ShieldCheck, User, Clock, ArrowRight, CheckCircle2, RotateCcw } from 'lucide-react';
+import { useTheme } from '@/lib/theme';
 
 interface OnboardingModalProps {
   onStart: (params: {
@@ -27,6 +28,7 @@ export function OnboardingModal({
   onResumeDraft,
   onDiscardDraft
 }: OnboardingModalProps) {
+  const { theme } = useTheme();
   const [identityMode, setIdentityMode] = useState<'identified' | 'anonymous'>('identified');
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
@@ -54,17 +56,17 @@ export function OnboardingModal({
           <div className="flex items-start justify-between gap-4 mb-4">
             <div className="flex items-center gap-3.5 sm:gap-4">
               <Image
-                src="/brand/do-luxo-a-mesa-clean.png"
-                alt="Do Luxo à Mesa"
-                width={70}
-                height={88}
-                className="h-14 sm:h-16 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+                src={theme === 'dark' ? '/brand/partnership-seal-dark-clean.png' : '/brand/partnership-seal-clean.png'}
+                alt="Sollelio | Do Luxo à Mesa"
+                width={72}
+                height={72}
+                className="w-16 h-16 sm:w-18 sm:h-18 object-contain shrink-0 select-none drop-shadow-xs"
                 priority
               />
 
               <div>
                 <span className="text-[10.5px] tracking-[0.16em] uppercase font-bold text-[var(--gold-text)] block">
-                  Do Luxo à Mesa · Pesquisa de Operação
+                  Do Luxo à Mesa × Sollelio
                 </span>
                 <h1 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-main)] tracking-tight leading-snug mt-0.5">
                   A perspetiva de quem faz os eventos acontecerem

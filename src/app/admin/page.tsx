@@ -149,11 +149,11 @@ export default function AdminDashboardPage() {
           <div className="text-center space-y-3">
             <div className="flex justify-center mb-1">
               <Image
-                src="/brand/do-luxo-a-mesa-clean.png"
-                alt="Do Luxo à Mesa"
-                width={70}
-                height={88}
-                className="h-16 sm:h-18 w-auto object-contain mx-auto select-none drop-shadow-xs"
+                src={theme === 'dark' ? '/brand/partnership-seal-dark-clean.png' : '/brand/partnership-seal-clean.png'}
+                alt="Sollelio | Do Luxo à Mesa"
+                width={80}
+                height={80}
+                className="w-16 h-16 sm:w-18 sm:h-18 object-contain mx-auto select-none drop-shadow-xs"
                 priority
               />
             </div>
@@ -215,11 +215,11 @@ export default function AdminDashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image
-              src="/brand/do-luxo-a-mesa-clean.png"
-              alt="Do Luxo à Mesa"
-              width={56}
-              height={70}
-              className="h-10 sm:h-11 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+              src={theme === 'dark' ? '/brand/partnership-seal-dark-clean.png' : '/brand/partnership-seal-clean.png'}
+              alt="Sollelio | Do Luxo à Mesa"
+              width={48}
+              height={48}
+              className="h-11 w-11 sm:h-12 sm:w-12 object-contain shrink-0 select-none drop-shadow-xs"
               priority
             />
             <div>

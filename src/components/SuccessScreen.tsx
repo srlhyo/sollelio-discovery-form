@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import { Heart, ShieldCheck } from 'lucide-react';
+import { useTheme } from '@/lib/theme';
 
 interface SuccessScreenProps {
   identityMode: 'anonymous' | 'identified';
@@ -16,6 +17,7 @@ export function SuccessScreen({
   respondentName,
   onNewSession
 }: SuccessScreenProps) {
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Fire gentle gold confetti burst on success
@@ -36,14 +38,14 @@ export function SuccessScreen({
 
   return (
     <div className="max-w-xl mx-auto py-12 px-4 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
-      {/* Brand logo */}
+      {/* Brand logo: Joint Sollelio | Do Luxo à Mesa */}
       <div className="relative inline-block mx-auto mb-2">
         <Image
-          src="/brand/do-luxo-a-mesa-clean.png"
-          alt="Do Luxo à Mesa"
-          width={80}
+          src={theme === 'dark' ? '/brand/partnership-seal-dark-clean.png' : '/brand/partnership-seal-clean.png'}
+          alt="Sollelio | Do Luxo à Mesa"
+          width={100}
           height={100}
-          className="h-20 sm:h-24 w-auto object-contain mx-auto select-none drop-shadow-md"
+          className="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto select-none drop-shadow-md"
           priority
         />
       </div>

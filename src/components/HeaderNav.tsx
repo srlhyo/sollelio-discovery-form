@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ShieldCheck, User, Check, Loader2, AlertCircle } from 'lucide-react';
 import { SURVEY_BLOCKS } from '@/lib/questions';
 import { ThemeToggle } from './ThemeToggle';
+import { useTheme } from '@/lib/theme';
 
 interface HeaderNavProps {
   currentBlockIndex: number;
@@ -25,6 +26,7 @@ export function HeaderNav({
   saveStatus,
   onNavigateBlock
 }: HeaderNavProps) {
+  const { theme } = useTheme();
   const currentBlock = SURVEY_BLOCKS[currentBlockIndex] || SURVEY_BLOCKS[0];
   const progressPercent = isReviewScreen
     ? 100
@@ -32,17 +34,17 @@ export function HeaderNav({
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--bg-surface)]/95 backdrop-blur border-b border-[var(--border-subtle)] shadow-xs transition-colors duration-200">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-2 sm:py-2.5">
         {/* Top row: Brand + Controls */}
         <div className="flex items-center justify-between gap-2">
-          {/* Brand lockup */}
+          {/* Brand lockup: Joint Sollelio | Do Luxo à Mesa */}
           <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <Image
-              src="/brand/do-luxo-a-mesa-clean.png"
-              alt="Do Luxo à Mesa"
-              width={64}
-              height={80}
-              className="h-10 sm:h-11 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+              src={theme === 'dark' ? '/brand/partnership-seal-dark-clean.png' : '/brand/partnership-seal-clean.png'}
+              alt="Sollelio | Do Luxo à Mesa"
+              width={48}
+              height={48}
+              className="h-11 w-11 sm:h-12 sm:w-12 object-contain shrink-0 select-none drop-shadow-xs"
               priority
             />
             <div className="flex flex-col justify-center">
