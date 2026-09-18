@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const summary = getAggregatedSummary();
+    const summary = await getAggregatedSummary();
     return NextResponse.json({
       success: true,
       summary

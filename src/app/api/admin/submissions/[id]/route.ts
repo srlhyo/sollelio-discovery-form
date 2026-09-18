@@ -12,7 +12,7 @@ export async function GET(
 
   try {
     const { id } = await params;
-    const sub = getSubmissionById(id);
+    const sub = await getSubmissionById(id);
 
     if (!sub) {
       return NextResponse.json({ success: false, error: 'Submissão não encontrada.' }, { status: 404 });

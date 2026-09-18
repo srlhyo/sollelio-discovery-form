@@ -18,7 +18,7 @@ export async function POST(
     }
 
     const finalAnswers = body.answers;
-    const submitted = submitSession(id, token, finalAnswers);
+    const submitted = await submitSession(id, token, finalAnswers);
 
     if (!submitted) {
       return NextResponse.json(

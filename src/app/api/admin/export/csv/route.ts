@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const submissions = getAllSubmissions();
+    const submissions = await getAllSubmissions();
 
     // Headers
     const headers = [

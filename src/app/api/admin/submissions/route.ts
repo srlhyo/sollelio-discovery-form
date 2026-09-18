@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const rawSubmissions = getAllSubmissions();
+    const rawSubmissions = await getAllSubmissions();
     const safeSubmissions = rawSubmissions.map((sub, index) => {
       let parsedAnswers: Record<string, unknown> = {};
       try {

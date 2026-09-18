@@ -20,7 +20,7 @@ export async function PUT(
     const currentBlock = typeof body.currentBlock === 'number' ? body.currentBlock : 0;
     const answers = body.answers || {};
 
-    const saved = autosaveSession(id, token, currentBlock, answers);
+    const saved = await autosaveSession(id, token, currentBlock, answers);
 
     if (!saved) {
       return NextResponse.json(

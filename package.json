@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:system": "npx tsx scripts/verify_system.js"
+    "test:system": "npx tsx scripts/verify_system.ts"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^13.4.0",
     "jspdf": "^4.2.1",

@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const submissions = getAllSubmissions();
+    const submissions = await getAllSubmissions();
     const submittedOnly = submissions.filter(s => s.status === 'submitted');
 
     // Initialize jsPDF (A4 portrait)

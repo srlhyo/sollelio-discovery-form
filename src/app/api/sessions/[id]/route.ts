@@ -17,7 +17,7 @@ export async function GET(
       );
     }
 
-    const session = getSession(id, token);
+    const session = await getSession(id, token);
 
     if (!session) {
       return NextResponse.json(

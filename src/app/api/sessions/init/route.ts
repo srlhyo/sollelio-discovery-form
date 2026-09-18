@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const identityMode = body.identityMode === 'identified' ? 'identified' : 'anonymous';
 
-    const session = createSession({
+    const session = await createSession({
       identityMode,
       name: body.name,
       contact: body.contact
