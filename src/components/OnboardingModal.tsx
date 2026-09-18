@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { ShieldCheck, User, Clock, ArrowRight, CheckCircle2, RotateCcw } from 'lucide-react';
-import { useTheme } from '@/lib/theme';
 
 interface OnboardingModalProps {
   onStart: (params: {
@@ -28,7 +27,6 @@ export function OnboardingModal({
   onResumeDraft,
   onDiscardDraft
 }: OnboardingModalProps) {
-  const { theme } = useTheme();
   const [identityMode, setIdentityMode] = useState<'identified' | 'anonymous'>('identified');
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
@@ -54,18 +52,15 @@ export function OnboardingModal({
         {/* Header Branding Banner: Warm, calm, dignified */}
         <div className="bg-[var(--bg-warm)] p-6 sm:p-8 border-b border-[var(--border-subtle)] relative">
           <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="flex items-center gap-3.5">
-              {/* Joint Brand Partnership Seal */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 relative shrink-0 rounded-2xl overflow-hidden p-1 bg-white/60 dark:bg-white/5 border border-[var(--border-subtle)] shadow-xs flex items-center justify-center">
-                <Image
-                  src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
-                  alt="Sollelio × Do Luxo à Mesa"
-                  width={60}
-                  height={60}
-                  className="object-contain"
-                  priority
-                />
-              </div>
+            <div className="flex items-center gap-3.5 sm:gap-4">
+              <Image
+                src="/brand/do-luxo-a-mesa-clean.png"
+                alt="Do Luxo à Mesa"
+                width={70}
+                height={88}
+                className="h-14 sm:h-16 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+                priority
+              />
 
               <div>
                 <span className="text-[10.5px] tracking-[0.16em] uppercase font-bold text-[var(--gold-text)] block">

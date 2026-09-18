@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import { Heart, ShieldCheck } from 'lucide-react';
-import { useTheme } from '@/lib/theme';
 
 interface SuccessScreenProps {
   identityMode: 'anonymous' | 'identified';
@@ -17,7 +16,6 @@ export function SuccessScreen({
   respondentName,
   onNewSession
 }: SuccessScreenProps) {
-  const { theme } = useTheme();
 
   useEffect(() => {
     // Fire gentle gold confetti burst on success
@@ -25,8 +23,8 @@ export function SuccessScreen({
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReducedMotion) {
         confetti({
-          particleCount: 60,
-          spread: 55,
+          particleCount: 45,
+          spread: 70,
           origin: { y: 0.55 },
           colors: ['#C9A84C', '#E8D5A3', '#D9BA67', '#F1ECE1', '#A07830']
         });
@@ -38,18 +36,16 @@ export function SuccessScreen({
 
   return (
     <div className="max-w-xl mx-auto py-12 px-4 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
-      {/* Brand icon & Partnership badge */}
-      <div className="relative inline-block mx-auto">
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-[var(--bg-surface)] border-[1.5px] border-[var(--gold-soft)] flex items-center justify-center shadow-lg p-2 mx-auto">
-          <Image
-            src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
-            alt="Do Luxo à Mesa × Sollelio"
-            width={90}
-            height={90}
-            className="object-contain"
-            priority
-          />
-        </div>
+      {/* Brand logo */}
+      <div className="relative inline-block mx-auto mb-2">
+        <Image
+          src="/brand/do-luxo-a-mesa-clean.png"
+          alt="Do Luxo à Mesa"
+          width={80}
+          height={100}
+          className="h-20 sm:h-24 w-auto object-contain mx-auto select-none drop-shadow-md"
+          priority
+        />
       </div>
 
       <div className="space-y-3">

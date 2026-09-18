@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { ShieldCheck, User, Check, Loader2, AlertCircle } from 'lucide-react';
 import { SURVEY_BLOCKS } from '@/lib/questions';
 import { ThemeToggle } from './ThemeToggle';
-import { useTheme } from '@/lib/theme';
 
 interface HeaderNavProps {
   currentBlockIndex: number;
@@ -26,7 +25,6 @@ export function HeaderNav({
   saveStatus,
   onNavigateBlock
 }: HeaderNavProps) {
-  const { theme } = useTheme();
   const currentBlock = SURVEY_BLOCKS[currentBlockIndex] || SURVEY_BLOCKS[0];
   const progressPercent = isReviewScreen
     ? 100
@@ -38,22 +36,20 @@ export function HeaderNav({
         {/* Top row: Brand + Controls */}
         <div className="flex items-center justify-between gap-2">
           {/* Brand lockup */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 relative shrink-0 rounded-xl overflow-hidden bg-[var(--bg-warm)] border border-[var(--border-subtle)] p-1 flex items-center justify-center shadow-xs">
-              <Image
-                src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
-                alt="Do Luxo à Mesa × Sollelio"
-                width={36}
-                height={36}
-                className="object-contain"
-                priority
-              />
-            </div>
-            <div>
-              <span className="text-[10px] tracking-[0.14em] uppercase font-bold text-[var(--gold-text)] block">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <Image
+              src="/brand/do-luxo-a-mesa-clean.png"
+              alt="Do Luxo à Mesa"
+              width={64}
+              height={80}
+              className="h-10 sm:h-11 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+              priority
+            />
+            <div className="flex flex-col justify-center">
+              <span className="text-[10px] tracking-[0.14em] uppercase font-bold text-[var(--gold-text)] block leading-tight">
                 Do Luxo à Mesa
               </span>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 mt-0.5 leading-tight">
                 <span className="font-serif text-xs sm:text-sm font-semibold text-[var(--text-main)] tracking-tight">
                   Product Discovery
                 </span>

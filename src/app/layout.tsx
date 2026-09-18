@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   title: "Do Luxo à Mesa · Product Discovery — com Sollelio",
   description: "Questionário confidencial de Product Discovery para a equipa e colaboradores da Do Luxo à Mesa, desenvolvido com tecnologia Sollelio.",
   icons: {
-    icon: "/brand/do-luxo-a-mesa-logo.png",
-    apple: "/brand/do-luxo-a-mesa-logo.png",
+    icon: "/brand/do-luxo-a-mesa-clean.png",
+    apple: "/brand/do-luxo-a-mesa-clean.png",
   },
 };
 

@@ -147,13 +147,14 @@ export default function AdminDashboardPage() {
       <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] flex items-center justify-center p-4 transition-colors">
         <div className="bg-[var(--bg-surface)] rounded-3xl p-8 max-w-md w-full shadow-2xl border border-[var(--border-subtle)] space-y-6">
           <div className="text-center space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-[var(--bg-warm)] border border-[var(--border-subtle)] p-2 mx-auto flex items-center justify-center shadow-xs">
+            <div className="flex justify-center mb-1">
               <Image
-                src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
-                alt="Do Luxo à Mesa × Sollelio"
-                width={48}
-                height={48}
-                className="object-contain"
+                src="/brand/do-luxo-a-mesa-clean.png"
+                alt="Do Luxo à Mesa"
+                width={70}
+                height={88}
+                className="h-16 sm:h-18 w-auto object-contain mx-auto select-none drop-shadow-xs"
+                priority
               />
             </div>
             <div>
@@ -213,15 +214,14 @@ export default function AdminDashboardPage() {
       <header className="bg-[var(--bg-surface)] border-b border-[var(--border-subtle)] sticky top-0 z-30 shadow-xs backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[var(--bg-warm)] border border-[var(--border-subtle)] p-1.5 flex items-center justify-center shadow-xs">
-              <Image
-                src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
-                alt="Do Luxo à Mesa × Sollelio"
-                width={36}
-                height={36}
-                className="object-contain"
-              />
-            </div>
+            <Image
+              src="/brand/do-luxo-a-mesa-clean.png"
+              alt="Do Luxo à Mesa"
+              width={56}
+              height={70}
+              className="h-10 sm:h-11 w-auto object-contain shrink-0 select-none drop-shadow-xs"
+              priority
+            />
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-[var(--gold-text)]">
