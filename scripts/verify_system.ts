@@ -2,7 +2,7 @@
 async function runVerification() {
   console.log('=== INICIANDO TESTES DE ARQUITETURA E CONCORRÊNCIA (com @libsql/client) ===\n');
 
-  const { createSession, getSession, autosaveSession, submitSession, getAggregatedSummary } = await import('../src/lib/db.ts');
+  const { createSession, getSession, autosaveSession, submitSession, getAggregatedSummary } = await import('../src/lib/db');
 
   // 1. Teste de Garantia de Anonimato
   console.log('1. A testar Garantia Arquitetural de Anonimato...');
