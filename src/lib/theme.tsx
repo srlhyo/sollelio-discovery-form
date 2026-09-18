@@ -21,35 +21,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    // 1. Check local storage
+    // 1. Check local storage for explicit user preference
     const stored = localStorage.getItem('dlm_theme') as Theme | null;
-    if (stored === 'light' || stored === 'dark') {
-      setThemeState(stored);
-      applyTheme(stored);
+    if (stored === 'dark') {
+      setThemeState('dark');
+      applyTheme('dark');
       return;
     }
 
-    // 2. Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setThemeState('dark');
-      applyTheme('dark');
-    } else {
-      setThemeState('light');
-      applyTheme('light');
-    }
-
-    // 3. Listen to system preference changes if no user override
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      const userOverride = localStorage.getItem('dlm_theme');
-      if (!userOverride) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        setThemeState(newTheme);
-        applyTheme(newTheme);
-      }
-    };
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // 2. Default is strictly 'light' (Do Luxo à Mesa signature creme palette)
+    setThemeState('light');
+    applyTheme('light');
   }, []);
 
   const applyTheme = (t: Theme) => {

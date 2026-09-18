@@ -48,13 +48,13 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <head>
-        {/* Anti-flash script for instant theme application */}
+        {/* Anti-flash script: Defaults to light mode unless explicitly set to dark */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
                 const stored = localStorage.getItem('dlm_theme');
-                if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (stored === 'dark') {
                   document.documentElement.setAttribute('data-theme', 'dark');
                   document.documentElement.classList.add('dark');
                 } else {
