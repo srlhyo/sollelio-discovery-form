@@ -294,7 +294,7 @@ export default function DiscoveryFormPage() {
   const currentQuestions = SURVEY_QUESTIONS.filter(q => q.blockId === currentBlock.id);
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-slate-900 flex flex-col font-sans selection:bg-[#3030A8] selection:text-white">
+    <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] flex flex-col font-sans selection:bg-[var(--gold)] selection:text-[var(--text-on-gold)] transition-colors duration-200">
       {/* Onboarding / Identity selection modal */}
       {showOnboarding && (
         <OnboardingModal
@@ -330,23 +330,23 @@ export default function DiscoveryFormPage() {
         ) : (
           <div className="space-y-6">
             {/* Block Intro Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs">
+            <div className="bg-[var(--bg-surface)] rounded-3xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#3030A8]/10 text-[#3030A8]">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]">
                   Bloco {currentBlock.letter} · {currentBlock.estimatedMinutes}
                 </span>
-                <span className="text-xs text-slate-400 font-medium">
+                <span className="text-xs text-[var(--text-faint)] font-mono">
                   {currentQuestions.length} perguntas neste bloco
                 </span>
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2 tracking-tight">
+              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[var(--text-main)] mt-3 tracking-tight">
                 {currentBlock.title}
               </h2>
-              <p className="text-xs sm:text-sm font-medium text-[#3030A8] mt-0.5">
+              <p className="text-xs sm:text-sm font-semibold text-[var(--gold-text)] tracking-wider uppercase mt-1">
                 {currentBlock.theme}
               </p>
-              <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-2 leading-relaxed">
                 {currentBlock.description}
               </p>
             </div>
@@ -369,9 +369,9 @@ export default function DiscoveryFormPage() {
                 <button
                   type="button"
                   onClick={handlePrevBlock}
-                  className="w-full sm:w-auto px-5 py-3 rounded-2xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-5 py-3 rounded-2xl border border-[var(--border-subtle)] text-[var(--text-main)] font-semibold text-sm hover:bg-[var(--bg-warm)] transition-all duration-180 flex items-center justify-center gap-2"
                 >
-                  <ArrowLeft className="w-4 h-4" />
+                  <ArrowLeft className="w-4 h-4 text-[var(--gold-text)]" />
                   Bloco anterior
                 </button>
               ) : (
@@ -381,7 +381,7 @@ export default function DiscoveryFormPage() {
               <button
                 type="button"
                 onClick={handleNextBlock}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#3030A8] hover:bg-[#252588] text-white font-bold text-sm sm:text-base transition shadow-lg shadow-blue-900/15 active:scale-[0.99] flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[var(--gold)] hover:bg-[var(--gold-hover)] text-[var(--text-on-gold)] font-bold text-sm sm:text-base transition-all duration-200 shadow-md shadow-amber-900/10 active:scale-[0.985] flex items-center justify-center gap-2"
               >
                 {currentBlockIndex === SURVEY_BLOCKS.length - 1 ? (
                   <>
@@ -397,13 +397,16 @@ export default function DiscoveryFormPage() {
               </button>
             </div>
 
-            {/* Subtle Psychological Safety Reassurance in Footer */}
-            <div className="text-center pt-8 pb-4">
-              <p className="text-xs text-slate-400 flex items-center justify-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            {/* Subtle Psychological Safety Reassurance & Brand Attribution in Footer */}
+            <div className="text-center pt-8 pb-4 space-y-1.5">
+              <p className="text-xs text-[var(--text-faint)] flex items-center justify-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 {identityMode === 'anonymous'
-                  ? 'Modo 100% Anónimo ativo · As tuas respostas não contêm identificadores'
+                  ? 'Modo 100% Anónimo ativo · Respostas livres de identificadores'
                   : `Modo Identificado (${respondentName || 'Colaborador'})`}
+              </p>
+              <p className="text-[11px] text-[var(--text-faint)] font-sans">
+                Do Luxo à Mesa · Product Discovery · Desenvolvido com tecnologia Sollelio
               </p>
             </div>
           </div>

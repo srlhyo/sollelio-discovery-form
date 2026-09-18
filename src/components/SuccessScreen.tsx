@@ -3,7 +3,8 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, Heart, ShieldCheck } from 'lucide-react';
+import { Heart, ShieldCheck } from 'lucide-react';
+import { useTheme } from '@/lib/theme';
 
 interface SuccessScreenProps {
   identityMode: 'anonymous' | 'identified';
@@ -16,14 +17,20 @@ export function SuccessScreen({
   respondentName,
   onNewSession
 }: SuccessScreenProps) {
+  const { theme } = useTheme();
+
   useEffect(() => {
-    // Fire festive confetti on success
+    // Fire gentle gold confetti burst on success
     try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReducedMotion) {
+        confetti({
+          particleCount: 60,
+          spread: 55,
+          origin: { y: 0.55 },
+          colors: ['#C9A84C', '#E8D5A3', '#D9BA67', '#F1ECE1', '#A07830']
+        });
+      }
     } catch {
       // Ignore if canvas not supported
     }
@@ -31,53 +38,51 @@ export function SuccessScreen({
 
   return (
     <div className="max-w-xl mx-auto py-12 px-4 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
-      {/* Brand icon & Success badge */}
+      {/* Brand icon & Partnership badge */}
       <div className="relative inline-block mx-auto">
-        <div className="w-20 h-20 rounded-3xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shadow-lg mx-auto">
-          <CheckCircle2 className="w-10 h-10" />
-        </div>
-        <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#3030A8] text-white flex items-center justify-center shadow-md p-1.5">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-[var(--bg-surface)] border-[1.5px] border-[var(--gold-soft)] flex items-center justify-center shadow-lg p-2 mx-auto">
           <Image
-            src="/brand/sollelio-symbol-color.svg"
-            alt="Sollelio"
-            width={16}
-            height={16}
-            className="brightness-200"
+            src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
+            alt="Do Luxo à Mesa × Sollelio"
+            width={90}
+            height={90}
+            className="object-contain"
+            priority
           />
         </div>
       </div>
 
       <div className="space-y-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
-          Questionário Submetido com Sucesso
+        <span className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[var(--gold-text)] bg-[var(--bg-selo)] px-3.5 py-1 rounded-full border border-[var(--gold-soft)] inline-block">
+          Questionário Concluído com Sucesso
         </span>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Muito obrigado pela tua partilha!
+        <h1 className="font-serif text-2xl sm:text-3xl font-normal text-[var(--text-main)] tracking-tight">
+          Muito obrigada pela tua partilha.
         </h1>
-        <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-md mx-auto">
+        <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed max-w-md mx-auto">
           {identityMode === 'anonymous' ? (
             <>
-              As tuas respostas foram guardadas de forma <strong>100% anónima</strong>. A tua franqueza sobre a realidade dos eventos é o contributo mais valioso que podíamos receber.
+              As tuas respostas foram guardadas de forma <strong>100% anónima</strong>. A tua franqueza sobre a realidade dos eventos é o contributo mais valioso para melhorar a operação.
             </>
           ) : (
             <>
-              Obrigado, <strong>{respondentName || 'Colaborador'}</strong>! As tuas respostas foram registadas e permitirão à equipa e à Nádia apoiar melhor o teu percurso.
+              Obrigada, <strong>{respondentName || 'Colaborador'}</strong>! As tuas respostas foram registadas e permitirão à equipa e à Nádia apoiar melhor o teu percurso.
             </>
           )}
         </p>
       </div>
 
       {/* Confirmation Callout Box */}
-      <div className="p-5 rounded-3xl bg-white border border-slate-200/90 shadow-xs text-left space-y-3 text-xs sm:text-sm text-slate-600">
-        <div className="flex items-center gap-2 font-bold text-slate-800">
-          <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
+      <div className="p-6 rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-[var(--shadow-card)] text-left space-y-3 text-xs sm:text-sm text-[var(--text-muted)]">
+        <div className="flex items-center gap-2 font-bold text-[var(--text-main)]">
+          <Heart className="w-4 h-4 text-[var(--gold)] fill-[var(--gold)]" />
           O que acontece a seguir?
         </div>
         <p className="leading-relaxed">
-          As respostas serão analisadas no âmbito do <strong>Product Discovery da Sollelio</strong> para desenhar processos mais humanos, transparentes e organizados para toda a equipa de eventos.
+          As tuas respostas serão analisadas no âmbito do <strong>Product Discovery da Do Luxo à Mesa</strong> com apoio tecnológico da <strong>Sollelio</strong>, para desenhar processos mais humanos, transparentes e previsíveis para quem está no terreno.
         </p>
-        <div className="pt-2 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+        <div className="pt-2 border-t border-[var(--border-subtle)] flex items-center gap-2 text-xs text-[var(--text-faint)]">
+          <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           Submissão finalizada. Podes fechar esta janela com segurança.
         </div>
       </div>
@@ -88,7 +93,7 @@ export function SuccessScreen({
           <button
             type="button"
             onClick={onNewSession}
-            className="text-xs text-slate-400 hover:text-slate-700 underline transition"
+            className="text-xs text-[var(--text-faint)] hover:text-[var(--text-main)] underline transition"
           >
             Submeter outra resposta ou mudar de colaborador
           </button>

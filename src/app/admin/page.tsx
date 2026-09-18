@@ -10,16 +10,17 @@ import {
   FileText,
   Lock,
   Search,
-  Filter,
   Eye,
   ArrowLeft,
   Calendar,
   Layers,
-  ChevronRight,
   RefreshCw,
-  Sparkles
+  Clock,
+  KeyRound
 } from 'lucide-react';
-import { SURVEY_BLOCKS, SURVEY_QUESTIONS, Question } from '@/lib/questions';
+import { SURVEY_BLOCKS, SURVEY_QUESTIONS } from '@/lib/questions';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { useTheme } from '@/lib/theme';
 
 interface SubmissionSummaryItem {
   id: string;
@@ -54,6 +55,7 @@ interface SummaryData {
 }
 
 export default function AdminDashboardPage() {
+  const { theme } = useTheme();
   const [adminKey, setAdminKey] = useState('sollelio-discovery-2026');
   const [keyInput, setKeyInput] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -142,40 +144,54 @@ export default function AdminDashboardPage() {
   // If not authenticated, show passcode modal
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl space-y-6">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-[#3030A8] text-white flex items-center justify-center mx-auto shadow-md">
-              <Lock className="w-6 h-6" />
+      <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] flex items-center justify-center p-4 transition-colors">
+        <div className="bg-[var(--bg-surface)] rounded-3xl p-8 max-w-md w-full shadow-2xl border border-[var(--border-subtle)] space-y-6">
+          <div className="text-center space-y-3">
+            <div className="w-14 h-14 rounded-2xl bg-[var(--bg-warm)] border border-[var(--border-subtle)] p-2 mx-auto flex items-center justify-center shadow-xs">
+              <Image
+                src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
+                alt="Do Luxo à Mesa × Sollelio"
+                width={48}
+                height={48}
+                className="object-contain"
+              />
             </div>
-            <h1 className="text-xl font-bold text-slate-900">
-              Painel de Gestão & Product Discovery
-            </h1>
-            <p className="text-xs text-slate-500">
-              Área reservada para análise das respostas dos colaboradores.
+            <div>
+              <span className="text-[10px] tracking-[0.16em] uppercase font-bold text-[var(--gold-text)] block">
+                Do Luxo à Mesa · Gestão
+              </span>
+              <h1 className="font-serif text-2xl font-normal text-[var(--text-main)] mt-1 tracking-tight">
+                Painel de Product Discovery
+              </h1>
+            </div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Área reservada para consulta das respostas de campo recolhidas junto da equipa.
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[var(--gold-text)] mb-1.5">
                 Chave de Acesso Administrativo
               </label>
-              <input
-                type="password"
-                value={keyInput}
-                onChange={(e) => setKeyInput(e.target.value)}
-                placeholder="Insere a chave de acesso..."
-                className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3030A8]"
-              />
-              <p className="text-[11px] text-slate-400 mt-1">
-                Chave padrão de teste: <code className="text-[#3030A8] font-mono">sollelio-discovery-2026</code>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={keyInput}
+                  onChange={(e) => setKeyInput(e.target.value)}
+                  placeholder="Insere a chave de acesso..."
+                  className="w-full px-4 py-2.5 text-sm bg-[var(--bg-warm)] border border-[var(--border-subtle)] rounded-xl focus:outline-none focus:border-[var(--gold)] text-[var(--text-main)] transition"
+                />
+                <KeyRound className="w-4 h-4 text-[var(--text-faint)] absolute right-3.5 top-3" />
+              </div>
+              <p className="text-[11px] text-[var(--text-faint)] mt-1.5 font-mono">
+                Chave padrão: <span className="text-[var(--gold-text)]">sollelio-discovery-2026</span>
               </p>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 rounded-xl bg-[#3030A8] hover:bg-[#252588] text-white font-bold text-sm transition shadow-md"
+              className="w-full py-3 rounded-xl bg-[var(--gold)] hover:bg-[var(--gold-hover)] text-[var(--text-on-gold)] font-bold text-sm transition-all duration-200 shadow-md shadow-amber-900/10 active:scale-[0.985]"
             >
               Entrar no Painel
             </button>
@@ -192,51 +208,53 @@ export default function AdminDashboardPage() {
   const draftSubmissions = submissions.filter(s => s.status === 'draft');
 
   return (
-    <div className="min-h-screen bg-[#F5F6FA] text-slate-900 font-sans">
+    <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] font-sans transition-colors duration-200">
       {/* Top Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+      <header className="bg-[var(--bg-surface)] border-b border-[var(--border-subtle)] sticky top-0 z-30 shadow-xs backdrop-blur">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#3030A8] flex items-center justify-center p-2 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-[var(--bg-warm)] border border-[var(--border-subtle)] p-1.5 flex items-center justify-center shadow-xs">
               <Image
-                src="/brand/sollelio-symbol-color.svg"
-                alt="Sollelio"
-                width={20}
-                height={20}
-                className="brightness-200"
+                src={theme === 'dark' ? '/brand/partnership-seal-dark.png' : '/brand/partnership-seal-transparent.png'}
+                alt="Do Luxo à Mesa × Sollelio"
+                width={36}
+                height={36}
+                className="object-contain"
               />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold tracking-widest uppercase text-slate-400">
-                  Sollelio · Do Luxo à Mesa
+                <span className="text-[10px] font-bold tracking-[0.16em] uppercase text-[var(--gold-text)]">
+                  Do Luxo à Mesa
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#3030A8] border border-blue-200">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]">
                   Ronda 3 · Colaboradores
                 </span>
               </div>
-              <h1 className="text-base font-bold text-slate-900">
-                Dashboard de Product Discovery & Insights
+              <h1 className="font-serif text-base sm:text-lg font-normal text-[var(--text-main)] leading-tight">
+                Product Discovery & Análise de Campo
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <ThemeToggle />
+
             <button
               type="button"
               onClick={() => loadData(adminKey)}
               disabled={isLoading}
-              className="px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-medium flex items-center gap-1.5 transition"
+              className="px-3 py-1.5 rounded-xl border border-[var(--border-subtle)] text-[var(--text-muted)] hover:bg-[var(--bg-warm)] text-xs font-medium flex items-center gap-1.5 transition"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-              Atualizar
+              <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin text-[var(--gold)]' : ''}`} />
+              <span className="hidden sm:inline">Atualizar</span>
             </button>
 
             <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded-xl bg-[#3030A8] text-white text-xs font-medium hover:bg-[#252588] transition flex items-center gap-1.5"
+              className="px-3.5 py-1.5 rounded-xl bg-[var(--gold)] text-[var(--text-on-gold)] text-xs font-semibold hover:bg-[var(--gold-hover)] transition-all duration-180 shadow-xs"
             >
               Ver Formulário
             </a>
@@ -248,61 +266,61 @@ export default function AdminDashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* KPI Metrics Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+          <div className="bg-[var(--bg-surface)] p-4 rounded-2xl border border-[var(--border-subtle)] shadow-xs">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-faint)]">
               Total Iniciadas
             </span>
-            <p className="text-2xl font-black text-slate-900 mt-1">
+            <p className="font-serif text-2xl font-normal text-[var(--text-main)] mt-1">
               {submissions.length}
             </p>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">
+          <div className="bg-[var(--bg-surface)] p-4 rounded-2xl border border-[var(--border-subtle)] shadow-xs">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">
               Submetidas
             </span>
-            <p className="text-2xl font-black text-emerald-700 mt-1">
+            <p className="font-serif text-2xl font-normal text-emerald-700 dark:text-emerald-400 mt-1">
               {completedSubmissions.length}
             </p>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600">
-              Em Progresso / Drafts
+          <div className="bg-[var(--bg-surface)] p-4 rounded-2xl border border-[var(--border-subtle)] shadow-xs">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--gold-text)]">
+              Em Aberto / Rascunhos
             </span>
-            <p className="text-2xl font-black text-amber-700 mt-1">
+            <p className="font-serif text-2xl font-normal text-[var(--gold-text)] mt-1">
               {draftSubmissions.length}
             </p>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600">
+          <div className="bg-[var(--bg-surface)] p-4 rounded-2xl border border-[var(--border-subtle)] shadow-xs">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
               100% Anónimas
             </span>
-            <p className="text-2xl font-black text-[#3030A8] mt-1">
+            <p className="font-serif text-2xl font-normal text-[var(--text-main)] mt-1">
               {summary?.anonymousCount || 0}
             </p>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs col-span-2 sm:col-span-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">
+          <div className="bg-[var(--bg-surface)] p-4 rounded-2xl border border-[var(--border-subtle)] shadow-xs col-span-2 sm:col-span-1">
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--gold-text)]">
               Identificadas
             </span>
-            <p className="text-2xl font-black text-blue-600 mt-1">
+            <p className="font-serif text-2xl font-normal text-[var(--text-main)] mt-1">
               {summary?.identifiedCount || 0}
             </p>
           </div>
         </div>
 
         {/* View Tabs */}
-        <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
+        <div className="flex items-center gap-2 border-b border-[var(--border-subtle)] pb-2 overflow-x-auto">
           <button
             type="button"
             onClick={() => { setActiveTab('matrix'); setSelectedSubmissionId(null); }}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-180 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'matrix' && !selectedSubmissionId
-                ? 'bg-[#3030A8] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[var(--gold)] text-[var(--text-on-gold)] shadow-xs'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-warm)]'
             }`}
           >
             <Layers className="w-4 h-4" />
@@ -312,10 +330,10 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={() => { setActiveTab('submissions'); setSelectedSubmissionId(null); }}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-180 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'submissions' && !selectedSubmissionId
-                ? 'bg-[#3030A8] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[var(--gold)] text-[var(--text-on-gold)] shadow-xs'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-warm)]'
             }`}
           >
             <User className="w-4 h-4" />
@@ -325,27 +343,27 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={() => { setActiveTab('drafts'); setSelectedSubmissionId(null); }}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-180 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'drafts' && !selectedSubmissionId
-                ? 'bg-[#3030A8] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[var(--gold)] text-[var(--text-on-gold)] shadow-xs'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-warm)]'
             }`}
           >
             <Calendar className="w-4 h-4" />
-            Rascunhos em Aberto ({draftSubmissions.length})
+            Rascunhos em Curso ({draftSubmissions.length})
           </button>
 
           <button
             type="button"
             onClick={() => { setActiveTab('export'); setSelectedSubmissionId(null); }}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-180 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'export' && !selectedSubmissionId
-                ? 'bg-[#3030A8] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[var(--gold)] text-[var(--text-on-gold)] shadow-xs'
+                : 'text-[var(--text-muted)] hover:bg-[var(--bg-warm)]'
             }`}
           >
             <Download className="w-4 h-4" />
-            Exportações & Relatório PDF
+            Relatório PDF & Dados CSV
           </button>
         </div>
 
@@ -353,8 +371,8 @@ export default function AdminDashboardPage() {
         {activeTab === 'matrix' && !selectedSubmissionId && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Questions Selector Column */}
-            <div className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xs space-y-4 lg:h-[calc(100vh-250px)] lg:overflow-y-auto">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block px-2">
+            <div className="bg-[var(--bg-surface)] rounded-3xl p-4 border border-[var(--border-subtle)] shadow-xs space-y-4 lg:h-[calc(100vh-250px)] lg:overflow-y-auto">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--gold-text)] block px-2">
                 22 Perguntas de Discovery
               </span>
 
@@ -363,7 +381,7 @@ export default function AdminDashboardPage() {
                   const blockQuestions = SURVEY_QUESTIONS.filter(q => q.blockId === block.id);
                   return (
                     <div key={block.id} className="space-y-1.5">
-                      <div className="px-2 py-1 bg-slate-50 rounded-lg text-[11px] font-bold text-[#3030A8] uppercase tracking-wider">
+                      <div className="px-2 py-1 bg-[var(--bg-warm)] rounded-lg text-[10.5px] font-bold text-[var(--gold-text)] uppercase tracking-wider">
                         Bloco {block.letter} · {block.title}
                       </div>
 
@@ -376,17 +394,17 @@ export default function AdminDashboardPage() {
                             key={q.id}
                             type="button"
                             onClick={() => setSelectedQuestionId(q.id)}
-                            className={`w-full text-left p-2.5 rounded-xl text-xs transition flex items-start justify-between gap-2 ${
+                            className={`w-full text-left p-2.5 rounded-xl text-xs transition-all duration-180 flex items-start justify-between gap-2 ${
                               isSelected
-                                ? 'bg-[#3030A8] text-white font-semibold shadow-xs'
-                                : 'text-slate-700 hover:bg-slate-50 border border-transparent'
+                                ? 'bg-[var(--gold)] text-[var(--text-on-gold)] font-semibold shadow-xs'
+                                : 'text-[var(--text-main)] hover:bg-[var(--bg-warm)] border border-transparent'
                             }`}
                           >
                             <span className="line-clamp-2">
                               {q.id}. {q.question}
                             </span>
-                            <span className={`px-1.5 py-0.5 rounded-md text-[10px] shrink-0 ${
-                              isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'
+                            <span className={`px-1.5 py-0.5 rounded-md text-[10px] shrink-0 font-mono ${
+                              isSelected ? 'bg-black/20 text-white' : 'bg-[var(--bg-warm)] text-[var(--text-muted)] border border-[var(--border-subtle)]'
                             }`}>
                               {count}
                             </span>
@@ -401,20 +419,20 @@ export default function AdminDashboardPage() {
 
             {/* Answer Feed Column */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-2">
+              <div className="bg-[var(--bg-surface)] rounded-3xl p-6 border border-[var(--border-subtle)] shadow-xs space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-md bg-[#3030A8]/10 text-[#3030A8] text-xs font-bold">
+                  <span className="px-2.5 py-1 rounded-md bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)] text-xs font-bold">
                     Pergunta {selectedQuestion.id} · Bloco {selectedQuestion.blockId}
                   </span>
-                  <span className="text-xs text-slate-400 font-medium">
+                  <span className="text-xs text-[var(--text-faint)] font-mono">
                     {questionAnswers.length} respostas recolhidas
                   </span>
                 </div>
-                <h2 className="text-lg font-bold text-slate-900">
+                <h2 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-main)]">
                   {selectedQuestion.question}
                 </h2>
                 {selectedQuestion.subprompt && (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                     {selectedQuestion.subprompt}
                   </p>
                 )}
@@ -422,11 +440,11 @@ export default function AdminDashboardPage() {
 
               {/* List of answers */}
               {questionAnswers.length === 0 ? (
-                <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-2">
-                  <p className="text-sm font-semibold text-slate-600">
+                <div className="bg-[var(--bg-surface)] rounded-3xl p-12 text-center border border-[var(--border-subtle)] space-y-2">
+                  <p className="text-sm font-semibold text-[var(--text-main)]">
                     Ainda não existem respostas submetidas para esta pergunta.
                   </p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-[var(--text-muted)]">
                     As respostas aparecerão aqui em tempo real assim que os colaboradores concluírem os questionários.
                   </p>
                 </div>
@@ -437,17 +455,17 @@ export default function AdminDashboardPage() {
                     return (
                       <div
                         key={idx}
-                        className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-3"
+                        className="bg-[var(--bg-surface)] rounded-3xl p-5 border border-[var(--border-subtle)] shadow-xs space-y-3"
                       >
-                        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                        <div className="flex items-center justify-between gap-2 border-b border-[var(--border-subtle)] pb-2.5">
                           <div className="flex items-center gap-2">
                             {isAnon ? (
-                              <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                              <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/50">
                                 <ShieldCheck className="w-3.5 h-3.5" />
                                 {ans.respondent}
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 text-xs font-bold text-[#3030A8] bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
+                              <span className="inline-flex items-center gap-1 text-xs font-bold text-[var(--gold-text)] bg-[var(--bg-selo)] px-2.5 py-1 rounded-full border border-[var(--gold-soft)]">
                                 <User className="w-3.5 h-3.5" />
                                 {ans.respondent}
                               </span>
@@ -455,7 +473,7 @@ export default function AdminDashboardPage() {
                           </div>
 
                           {ans.submittedAt && (
-                            <span className="text-[11px] text-slate-400">
+                            <span className="text-[11px] text-[var(--text-faint)] font-mono">
                               {new Date(ans.submittedAt).toLocaleDateString('pt-PT')}
                             </span>
                           )}
@@ -466,7 +484,7 @@ export default function AdminDashboardPage() {
                             {ans.selectedOptions.map(opt => (
                               <span
                                 key={opt}
-                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200"
+                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]"
                               >
                                 {opt}
                               </span>
@@ -475,7 +493,7 @@ export default function AdminDashboardPage() {
                         )}
 
                         {ans.text && (
-                          <p className="text-sm text-slate-800 leading-relaxed bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
+                          <p className="text-sm text-[var(--text-main)] leading-relaxed bg-[var(--bg-warm)]/70 p-3.5 rounded-2xl border border-[var(--border-subtle)] italic">
                             &ldquo;{ans.text}&rdquo;
                           </p>
                         )}
@@ -490,53 +508,55 @@ export default function AdminDashboardPage() {
 
         {/* TAB 2: COMPLETED SUBMISSIONS LIST */}
         {activeTab === 'submissions' && !selectedSubmissionId && (
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div className="bg-[var(--bg-surface)] rounded-3xl border border-[var(--border-subtle)] shadow-xs overflow-hidden">
+            <div className="p-5 border-b border-[var(--border-subtle)] flex items-center justify-between">
               <div>
-                <h2 className="text-base font-bold text-slate-900">
+                <h2 className="font-serif text-base sm:text-lg font-normal text-[var(--text-main)]">
                   Questionários Submetidos ({completedSubmissions.length})
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-[var(--text-muted)]">
                   Submissões finalizadas e prontas para análise individual.
                 </p>
               </div>
             </div>
 
             {completedSubmissions.length === 0 ? (
-              <div className="p-12 text-center text-slate-500 text-sm">
+              <div className="p-12 text-center text-[var(--text-muted)] text-sm">
                 Nenhum questionário submetido até ao momento.
               </div>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-[var(--border-subtle)]">
                 {completedSubmissions.map((sub) => {
                   const isAnon = sub.identityMode === 'anonymous';
                   return (
                     <div
                       key={sub.id}
-                      className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-slate-50/80 transition"
+                      className="p-4 sm:p-5 flex items-center justify-between gap-4 hover:bg-[var(--bg-warm)] transition-colors duration-150"
                     >
                       <div className="flex items-center gap-3.5">
                         <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold ${
-                          isAnon ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-[#3030A8]'
+                          isAnon
+                            ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                            : 'bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]'
                         }`}>
                           {isAnon ? <ShieldCheck className="w-5 h-5" /> : <User className="w-5 h-5" />}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <p className="text-sm font-bold text-slate-900">
+                            <p className="text-sm font-bold text-[var(--text-main)]">
                               {sub.displayName}
                             </p>
                             {isAnon ? (
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/50">
                                 Anónimo
                               </span>
                             ) : (
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#3030A8] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--gold-text)] bg-[var(--bg-selo)] px-2 py-0.5 rounded-full border border-[var(--gold-soft)]">
                                 Identificado
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-[var(--text-muted)] mt-0.5 font-mono">
                             Submetido em {sub.submittedAt ? new Date(sub.submittedAt).toLocaleString('pt-PT') : 'Recente'} · {sub.answersCount} respostas
                           </p>
                         </div>
@@ -545,7 +565,7 @@ export default function AdminDashboardPage() {
                       <button
                         type="button"
                         onClick={() => handleViewSingleSubmission(sub.id)}
-                        className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-white hover:border-[#3030A8] hover:text-[#3030A8] transition flex items-center gap-1.5 shadow-xs"
+                        className="px-4 py-2 rounded-xl border border-[var(--border-subtle)] text-xs font-semibold text-[var(--text-main)] hover:bg-[var(--bg-surface)] hover:border-[var(--gold)] hover:text-[var(--gold-text)] transition-all duration-180 flex items-center gap-1.5 shadow-xs"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         Ver Respostas
@@ -560,45 +580,44 @@ export default function AdminDashboardPage() {
 
         {/* TAB 3: DRAFTS IN PROGRESS */}
         {activeTab === 'drafts' && !selectedSubmissionId && (
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
-            <div className="p-5 border-b border-slate-100">
-              <h2 className="text-base font-bold text-slate-900">
+          <div className="bg-[var(--bg-surface)] rounded-3xl border border-[var(--border-subtle)] shadow-xs overflow-hidden">
+            <div className="p-5 border-b border-[var(--border-subtle)]">
+              <h2 className="font-serif text-base sm:text-lg font-normal text-[var(--text-main)]">
                 Sessões em Aberto / Rascunhos ({draftSubmissions.length})
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-[var(--text-muted)]">
                 Colaboradores que iniciaram o formulário e ainda estão a responder ou pausaram.
               </p>
             </div>
 
             {draftSubmissions.length === 0 ? (
-              <div className="p-12 text-center text-slate-500 text-sm">
+              <div className="p-12 text-center text-[var(--text-muted)] text-sm">
                 Não existem rascunhos em aberto no momento.
               </div>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-[var(--border-subtle)]">
                 {draftSubmissions.map((sub) => {
-                  const isAnon = sub.identityMode === 'anonymous';
                   return (
                     <div
                       key={sub.id}
                       className="p-4 sm:p-5 flex items-center justify-between gap-4"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">
+                        <div className="w-9 h-9 rounded-xl bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)] flex items-center justify-center font-bold text-xs">
                           B{sub.currentBlock + 1}
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-slate-800">
+                          <p className="text-sm font-semibold text-[var(--text-main)]">
                             {sub.displayName}
                           </p>
-                          <p className="text-xs text-slate-400">
-                            Última atualização: {new Date(sub.updatedAt).toLocaleString('pt-PT')} · Bloco {sub.currentBlock + 1} ({sub.answersCount} campos preenchidos)
+                          <p className="text-xs text-[var(--text-muted)] font-mono">
+                            Última atualização: {new Date(sub.updatedAt).toLocaleString('pt-PT')} · Bloco {sub.currentBlock + 1} ({sub.answersCount} campos)
                           </p>
                         </div>
                       </div>
 
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                        Em progresso
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]">
+                        Em curso
                       </span>
                     </div>
                   );
@@ -612,39 +631,39 @@ export default function AdminDashboardPage() {
         {activeTab === 'export' && !selectedSubmissionId && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* PDF Report Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#3030A8] text-white flex items-center justify-center shadow-md">
-                <FileText className="w-6 h-6" />
+            <div className="bg-[var(--bg-surface)] rounded-3xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-xs space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)] flex items-center justify-center shadow-xs">
+                <FileText className="w-6 h-6 text-[var(--gold)]" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900">
-                  Relatório Executivo em PDF
+                <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-main)]">
+                  Relatório Executivo em PDF (A4)
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
-                  Gera o documento formal de Product Discovery com cabeçalhos Sollelio, métricas consolidadas e todas as respostas estruturadas por bloco temático.
+                <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1.5 leading-relaxed">
+                  Gera o documento formal de Product Discovery com cabeçalhos Do Luxo à Mesa, paleta editorial, métricas consolidadas e respostas estruturadas por bloco.
                 </p>
               </div>
 
               <a
                 href={`/api/admin/export/pdf?key=${encodeURIComponent(adminKey)}`}
                 download
-                className="w-full py-3.5 px-5 rounded-2xl bg-[#3030A8] hover:bg-[#252588] text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-md shadow-blue-900/15"
+                className="w-full py-3.5 px-5 rounded-2xl bg-[var(--gold)] hover:bg-[var(--gold-hover)] text-[var(--text-on-gold)] font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-amber-900/10 active:scale-[0.985]"
               >
                 <Download className="w-4 h-4" />
-                Descarregar Relatório PDF (A4)
+                Descarregar Relatório PDF
               </a>
             </div>
 
             {/* CSV Data Export Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+            <div className="bg-[var(--bg-surface)] rounded-3xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-xs space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center shadow-xs">
                 <FileSpreadsheet className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-main)]">
                   Exportar Base de Dados em CSV
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1.5 leading-relaxed">
                   Exporta todas as submissões com codificação UTF-8 e colunas detalhadas para Excel, Google Sheets, Python ou ferramentas de visualização.
                 </p>
               </div>
@@ -652,7 +671,7 @@ export default function AdminDashboardPage() {
               <a
                 href={`/api/admin/export/csv?key=${encodeURIComponent(adminKey)}`}
                 download
-                className="w-full py-3.5 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-md shadow-emerald-800/15"
+                className="w-full py-3.5 px-5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-emerald-950/10 active:scale-[0.985]"
               >
                 <Download className="w-4 h-4" />
                 Descarregar Ficheiro CSV
@@ -661,46 +680,46 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* SINGLE SUBMISSION DETAIL MODAL/VIEW */}
+        {/* SINGLE SUBMISSION DETAIL VIEW */}
         {selectedSubmissionId && singleSubmissionData && (
           <div className="space-y-6">
             <button
               type="button"
               onClick={() => { setSelectedSubmissionId(null); setSingleSubmissionData(null); }}
-              className="inline-flex items-center gap-2 text-xs font-bold text-[#3030A8] hover:underline"
+              className="inline-flex items-center gap-2 text-xs font-bold text-[var(--gold-text)] hover:underline"
             >
               <ArrowLeft className="w-4 h-4" />
               Voltar à lista de submissões
             </button>
 
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div className="bg-[var(--bg-surface)] rounded-3xl p-6 sm:p-8 border border-[var(--border-subtle)] shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
                       singleSubmissionData.identityMode === 'anonymous'
-                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                        : 'bg-blue-50 text-[#3030A8] border border-blue-200'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                        : 'bg-[var(--bg-selo)] text-[var(--gold-text)] border border-[var(--gold-soft)]'
                     }`}>
                       {singleSubmissionData.identityMode === 'anonymous' ? '100% Anónimo' : 'Identificado'}
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-[var(--text-faint)] font-mono">
                       ID: {singleSubmissionData.id.slice(0, 8)}...
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-slate-900 mt-1.5">
+                  <h2 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-main)] mt-1.5">
                     {singleSubmissionData.displayName}
                   </h2>
                   {singleSubmissionData.respondentContact && (
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5 font-mono">
                       Contacto: {singleSubmissionData.respondentContact}
                     </p>
                   )}
                 </div>
 
                 <div className="text-right">
-                  <span className="text-xs text-slate-400 block">Data de Submissão:</span>
-                  <span className="text-xs font-semibold text-slate-700">
+                  <span className="text-xs text-[var(--text-faint)] block">Data de Submissão:</span>
+                  <span className="text-xs font-semibold text-[var(--text-main)] font-mono">
                     {singleSubmissionData.submittedAt
                       ? new Date(singleSubmissionData.submittedAt).toLocaleString('pt-PT')
                       : 'Em rascunho'}
@@ -714,7 +733,7 @@ export default function AdminDashboardPage() {
                   const blockQuestions = SURVEY_QUESTIONS.filter(q => q.blockId === block.id);
                   return (
                     <div key={block.id} className="space-y-3">
-                      <div className="bg-slate-50 px-3.5 py-1.5 rounded-xl text-xs font-bold text-[#3030A8] uppercase tracking-wider">
+                      <div className="bg-[var(--bg-warm)] px-3.5 py-1.5 rounded-xl text-xs font-bold text-[var(--gold-text)] uppercase tracking-wider">
                         Bloco {block.letter} · {block.title}
                       </div>
 
@@ -724,19 +743,19 @@ export default function AdminDashboardPage() {
                           const hasAns = ans && (ans.text?.trim() || (ans.selectedOptions && ans.selectedOptions.length > 0));
 
                           return (
-                            <div key={q.id} className="p-3.5 rounded-2xl bg-white border border-slate-200 text-xs sm:text-sm">
-                              <p className="font-semibold text-slate-800">
+                            <div key={q.id} className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-xs sm:text-sm">
+                              <p className="font-semibold text-[var(--text-main)]">
                                 {q.id}. {q.question}
                               </p>
 
                               {hasAns ? (
-                                <div className="mt-2 space-y-1.5">
+                                <div className="mt-2.5 space-y-1.5">
                                   {ans.selectedOptions && ans.selectedOptions.length > 0 && (
                                     <div className="flex flex-wrap gap-1">
                                       {ans.selectedOptions.map(opt => (
                                         <span
                                           key={opt}
-                                          className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 font-medium text-[11px] border border-amber-200"
+                                          className="px-2.5 py-0.5 rounded-md bg-[var(--bg-selo)] text-[var(--gold-text)] font-semibold text-[11px] border border-[var(--gold-soft)]"
                                         >
                                           {opt}
                                         </span>
@@ -744,13 +763,13 @@ export default function AdminDashboardPage() {
                                     </div>
                                   )}
                                   {ans.text?.trim() && (
-                                    <p className="text-slate-900 bg-slate-50 p-3 rounded-xl border border-slate-100 italic leading-relaxed">
+                                    <p className="text-[var(--text-main)] bg-[var(--bg-warm)]/70 p-3 rounded-xl border border-[var(--border-subtle)] italic leading-relaxed">
                                       &ldquo;{ans.text.trim()}&rdquo;
                                     </p>
                                   )}
                                 </div>
                               ) : (
-                                <p className="text-slate-400 italic mt-1 text-xs">
+                                <p className="text-[var(--text-faint)] italic mt-1 text-xs">
                                   (Sem resposta)
                                 </p>
                               )}
